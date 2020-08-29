@@ -107,17 +107,18 @@ namespace DZ_Less6
             {
                 result[i] = new int[mB[0].Length];
             }
-            Task[] tasks = new Task[result.Length * result[0].Length];
+            Task[] tasks = new Task[result.Length];
             for (int i = 0; i < result.Length; i++)
             {
                 for (int j = 0; j < result[0].Length; j++)
                 {
                     int i1 = i;
                     int j1 = j;
-                    tasks[result.Length * i1 + j1] = Task.Run(() => result[i1][j1] = MultiplyElement(i1, j1, mA, mB));
+                    tasks[j1] = Task.Run(() => result[i1][j1] = MultiplyElement(i1, j1, mA, mB));
                 }
+                Task.WaitAll(tasks);
             }
-            Task.WaitAll(tasks);
+            
             return result;
         }
 
